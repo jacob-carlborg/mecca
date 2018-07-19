@@ -12,7 +12,8 @@ import core.sys.posix.sys.mman;
 import core.stdc.errno;
 import core.sys.posix.fcntl;
 import core.sys.posix.unistd;
-import core.sys.linux.sys.mman: MAP_ANONYMOUS, MAP_POPULATE;
+import core.sys.posix.sys.mman : MAP_ANON;
+import core.sys.linux.sys.mman : MAP_POPULATE;
 
 import mecca.lib.exception;
 import mecca.lib.reflection: setToInit, abiSignatureOf;
@@ -40,7 +41,7 @@ struct MmapArray(T) {
         assert (numElements > 0);
         auto size = T.sizeof * numElements;
         auto ptr = mmap(null, size, PROT_READ | PROT_WRITE,
-            MAP_PRIVATE | MAP_ANONYMOUS | MAP_POPULATE, -1, 0);
+            MAP_PRIVATE | MAP_ANON | MAP_POPULATE, -1, 0);
         enforceFmt!ErrnoException(ptr != MAP_FAILED, "mmap(%s bytes) failed", size);
         arr = (cast(T*)ptr)[0 .. numElements];
         if (registerWithGC) {
