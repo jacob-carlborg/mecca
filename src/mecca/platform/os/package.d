@@ -1,4 +1,4 @@
-module mecca.platform.os.package;
+module mecca.platform.os;
 
 // Licensed under the Boost license. Full copyright information in the AUTHORS file
 
