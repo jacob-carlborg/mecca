@@ -13,10 +13,10 @@ import core.stdc.errno;
 import core.sys.posix.fcntl;
 import core.sys.posix.unistd;
 import core.sys.posix.sys.mman : MAP_ANON;
-import core.sys.linux.sys.mman : MAP_POPULATE;
 
 import mecca.lib.exception;
 import mecca.lib.reflection: setToInit, abiSignatureOf;
+import mecca.platform.os : MAP_POPULATE;
 
 import mecca.log;
 
