@@ -5,7 +5,7 @@ module mecca.lib.io;
 
 import core.sys.posix.unistd;
 public import core.sys.posix.fcntl :
-    O_ACCMODE, O_RDONLY, O_WRONLY, O_RDWR, O_CREAT, O_EXCL, O_TRUNC, O_APPEND, O_DSYNC, O_RSYNC, O_SYNC, O_NOCTTY;
+    O_ACCMODE, O_RDONLY, O_WRONLY, O_RDWR, O_CREAT, O_EXCL, O_TRUNC, O_APPEND, O_SYNC, O_NOCTTY;
     /* O_NOATIME, O_NOFOLLOW not included because not defined */
 import core.sys.posix.fcntl;
 import std.algorithm : min, move;
@@ -17,6 +17,7 @@ import mecca.lib.memory;
 import mecca.lib.string;
 import mecca.log;
 import mecca.platform.x86;
+import mecca.platform.os : O_DSYNC, O_RSYNC;
 
 private extern(C) nothrow @trusted @nogc {
     int pipe2(ref int[2], int flags);
