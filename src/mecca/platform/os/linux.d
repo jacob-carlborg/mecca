@@ -555,3 +555,4 @@ mixin template hookSyscall(alias F, Syscall nr, alias traceFunc, SyscallTracePoi
 public import core.sys.linux.sys.mman : MAP_POPULATE;
 public import core.sys.posix.fcntl : O_DSYNC, O_RSYNC;
 public import core.sys.posix.time : timer_t;
+public import core.sys.linux.sys.signalfd : signalfd_siginfo;

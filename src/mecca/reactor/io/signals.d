@@ -6,13 +6,12 @@ module mecca.reactor.io.signals;
 import core.sys.posix.signal;
 import core.sys.posix.unistd;
 import core.sys.linux.sys.signalfd;
-public import core.sys.linux.sys.signalfd : signalfd_siginfo;
 
 import mecca.lib.exception;
 import mecca.lib.reflection;
 import mecca.lib.time;
 import mecca.log;
-public import mecca.platform.os : OSSignal;
+public import mecca.platform.os : OSSignal, signalfd_siginfo;
 import mecca.platform.os;
 import mecca.reactor.io.fd;
 import mecca.reactor;
