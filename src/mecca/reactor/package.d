@@ -4,7 +4,6 @@ module mecca.reactor;
 // Licensed under the Boost license. Full copyright information in the AUTHORS file
 
 static import posix_signal = core.sys.posix.signal;
-static import posix_time = core.sys.posix.time;
 static import posix_ucontext = core.sys.posix.ucontext;
 import core.memory: GC;
 import core.sys.posix.signal;
@@ -30,6 +29,7 @@ import mecca.lib.typedid;
 import mecca.log;
 import mecca.log.impl;
 import mecca.platform.os;
+static import os_time = mecca.platform.os;
 import mecca.reactor.fiber_group;
 import mecca.reactor.fls;
 import mecca.reactor.impl.fibril: Fibril;
@@ -544,7 +544,7 @@ private:
     // Point to idleCallbacks as a range, in case it gets full and we need to spill over to GC allocation
     IdleCallbackDlg[] actualIdleCallbacks;
     __gshared OSSignal hangDetectorSig;
-    posix_time.timer_t hangDetectorTimerId;
+    os_time.timer_t hangDetectorTimerId;
 
     SignalHandlerValue!TscTimePoint fiberRunStartTime;
     void delegate() nothrow @nogc @safe crossFiberHook;
@@ -1829,7 +1829,7 @@ private:
 
         errnoEnforceNGC(posix_time.timer_create(posix_time.CLOCK_MONOTONIC, &sev, &hangDetectorTimerId) == 0,
                 "timer_create for hang detector");
-        ASSERT!"hangDetectorTimerId is null"(hangDetectorTimerId !is posix_time.timer_t.init);
+        ASSERT!"hangDetectorTimerId is null"(hangDetectorTimerId !is os_time.timer_t.init);
         scope(failure) posix_time.timer_delete(hangDetectorTimerId);
 
         posix_time.itimerspec its;
