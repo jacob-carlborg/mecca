@@ -566,3 +566,10 @@ version(linux) {
         enum O_CLOEXEC = 0x80000;
     }
 }
+
+import fcntl = core.sys.posix.fcntl;
+static if( __traits(compiles, fcntl.F_DUPFD_CLOEXEC) ) {
+    enum F_DUPFD_CLOEXEC = fcntl.F_DUPFD_CLOEXEC;
+} else {
+    enum F_DUPFD_CLOEXEC = 1030;
+}
