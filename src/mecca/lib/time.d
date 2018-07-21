@@ -98,9 +98,11 @@ public:
 
     shared static this() {
         import std.exception;
-        import core.sys.posix.time;
+        import core.sys.posix.time : nanosleep, timespec;
         import std.file: readText;
         import std.string;
+
+        import mecca.platform.os;
 
         version (linux) {
         }
