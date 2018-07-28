@@ -575,3 +575,4 @@ static if( __traits(compiles, fcntl.F_DUPFD_CLOEXEC) ) {
 }
 
 public import core.sys.posix.time : CLOCK_MONOTONIC, clock_gettime;
+public import core.stdc.errno : EREMOTEIO;
