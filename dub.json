@@ -6,6 +6,11 @@
     "copyright": "Copyright © 2017-2018, Weka.IO Ltd.",
     "license": "Boost",
     "dependencies" : {},
+    "excludedSourceFiles-osx": [
+        "src/mecca/reactor/io/fs_watcher.d",
+        "src/mecca/reactor/io/inotify.d"
+    ],
+
     "configurations": [
         {
             "name": "mecca-lib",

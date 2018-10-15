@@ -14,7 +14,9 @@ version(linux) {
     public import mecca.reactor.io.inotify : WatchDescriptor;
     public import core.sys.linux.sys.inotify;
 } else {
-    static assert(false, "Unsupported platform for file watching");
+    import mecca.reactor.io.inotify;
+    public import mecca.reactor.io.inotify : WatchDescriptor;
+    // static assert(false, "Unsupported platform for file watching");
 }
 
 /// file watcher struct

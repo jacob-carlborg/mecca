@@ -107,7 +107,7 @@ public:
         version (linux) {
         }
         else {
-            static assert (false, "a linux system is required");
+            // static assert (false, "a linux system is required");
         }
 
         enforce(readText("/proc/cpuinfo").indexOf("constant_tsc") >= 0, "constant_tsc not supported");
