@@ -20,6 +20,7 @@ public import mecca.lib.net;
 import mecca.lib.string;
 import mecca.lib.time;
 import mecca.log;
+import mecca.platform.os : EREMOTEIO;
 import mecca.reactor.subsystems.epoll;
 
 enum LISTEN_BACKLOG = 10;
@@ -397,7 +398,7 @@ struct Socket {
     ssize_t sendTo(const void[] data, int flags, SockAddr destAddr, Timeout timeout = Timeout.infinite)
             @trusted @nogc
     {
-        return fd.blockingCall!(.sendto)(data.ptr, data.length, flags, &destAddr.base, SockAddr.sizeof, timeout); 
+        return fd.blockingCall!(.sendto)(data.ptr, data.length, flags, &destAddr.base, SockAddr.sizeof, timeout);
     }
 
     /// ditto
