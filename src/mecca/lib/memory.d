@@ -257,6 +257,7 @@ struct GCStats {
 
 struct GCStackDescriptor {
     private import core.sync.mutex: Mutex;
+    import std.conv: to;
 
     void*              bstack; /// Stack bottom
     void*              tstack; /// Stack top
@@ -265,9 +266,11 @@ struct GCStackDescriptor {
     GCStackDescriptor* next;
     GCStackDescriptor* prev;
 
-    static assert (__traits(classInstanceSize, Mutex) == 72); // This size is part of the mangle
-    pragma(mangle, "_D4core6thread6Thread6_locksG2G72v") extern __gshared static
-            void[__traits(classInstanceSize, Mutex)][2] _locks;
+    private enum mutextInstanceSize = __traits(classInstanceSize, Mutex);
+    private enum mangleSuffix = mutextInstanceSize.to!string ~ "v";
+
+    pragma(mangle, "_D4core6thread6Thread6_locksG2G" ~ mangleSuffix) extern __gshared static
+            void[mutextInstanceSize][2] _locks;
     static if (__VERSION__ < 2077) {
         pragma(mangle, "_D4core6thread6Thread7sm_cbegPS4core6thread6Thread7Context") extern __gshared static
                 GCStackDescriptor* sm_cbeg;
