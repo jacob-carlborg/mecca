@@ -650,7 +650,7 @@ public:
         _openReactorEpoll();
 
         if(options.registerDefaultIdler) {
-            import mecca.reactor.subsystems.epoll;
+            import mecca.reactor.subsystems.poller;
             theReactor.registerIdleCallback(&poller.reactorIdle);
         }
 

@@ -21,7 +21,7 @@ import mecca.lib.string;
 import mecca.lib.time;
 import mecca.log;
 import mecca.platform.os : EREMOTEIO;
-import mecca.reactor.subsystems.epoll;
+import mecca.reactor.subsystems.poller;
 
 enum LISTEN_BACKLOG = 10;
 

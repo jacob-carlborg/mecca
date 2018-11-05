@@ -18,7 +18,7 @@ public import mecca.platform.os : OSSignal;
 import mecca.platform.os;
 import mecca.reactor.io.fd;
 import mecca.reactor;
-import mecca.reactor.subsystems.epoll;
+import mecca.reactor.subsystems.poller;
 
 // Definitions missing from the phobos headers or lacking nothrow @nogc
 extern(C) private nothrow @trusted @nogc {

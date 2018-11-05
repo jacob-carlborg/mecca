@@ -1,4 +1,4 @@
-module mecca.reactor.subsystems.epoll;
+module mecca.reactor.platform.linux.epoll;
 
 // Licensed under the Boost license. Full copyright information in the AUTHORS file
 
