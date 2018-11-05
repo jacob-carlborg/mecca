@@ -79,7 +79,7 @@ public:
      * Must be called after the reactor is open, and also after ReactorFS.openReactor has already been called.
      */
     void _open() @safe @nogc {
-        ASSERT!"ReactorSignal.open called without first calling ReactorFD.openReactor"(epoller.isOpen);
+        ASSERT!"ReactorSignal.open called without first calling ReactorFD.openReactor"(poller.isOpen);
         sigemptyset(signals);
         handlers[] = null;
         int fd = signalfd(-1, signals, SignalFdFlags);

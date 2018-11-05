@@ -347,7 +347,7 @@ private void connectHelper(ref Socket sock, SockAddr sa, Timeout timeout) @trust
     errnoEnforceNGC(result==0 || errno == EINPROGRESS, "Connect failed");
 
     // Wait for connect to finish
-    epoller.waitForEvent(sock.ctx, sock.get.fileNo, timeout);
+    poller.waitForEvent(sock.ctx, sock.get.fileNo, timeout);
 
     socklen_t reslen = result.sizeof;
     sock.osCallErrno!(.getsockopt)( SOL_SOCKET, SO_ERROR, &result, &reslen);
@@ -707,7 +707,7 @@ public:
      */
     this(FD fd, bool alreadyNonBlocking = false) @safe @nogc {
         move( fd, this.fd );
-        ctx = epoller.registerFD(this.fd, alreadyNonBlocking);
+        ctx = poller.registerFD(this.fd, alreadyNonBlocking);
     }
 
     ~this() nothrow @safe @nogc {
@@ -727,7 +727,7 @@ public:
         if( fd.isValid ) {
             assert(ctx !is null);
 
-            epoller.deregisterFd( fd, ctx );
+            poller.deregisterFd( fd, ctx );
 
             fd.close();
             ctx = null;
@@ -778,7 +778,7 @@ public:
         if( !fd.isValid )
             return FD();
 
-        epoller.deregisterFd( fd, ctx );
+        poller.deregisterFd( fd, ctx );
         ctx = null;
 
         return move(fd);
@@ -804,11 +804,11 @@ public:
      * oneShot = if set to `true`, the callback will automatically be deregistered after being called once.
      */
     void registerCallback(void delegate(void*) dlg, void* opaq, bool oneShot = true) nothrow @safe @nogc {
-        epoller.registerFdCallback(ctx, fd.fileNo, dlg, opaq, oneShot);
+        poller.registerFdCallback(ctx, fd.fileNo, dlg, opaq, oneShot);
     }
 
     void unregisterCallback() nothrow @safe @nogc {
-        epoller.unregisterFdCallback(ctx, fd.fileNo);
+        poller.unregisterFdCallback(ctx, fd.fileNo);
     }
 
 package:
@@ -820,7 +820,7 @@ package:
             auto ret = fd.osCall!F(args);
             if (ret < 0) {
                 if (errno == EAGAIN || errno == EWOULDBLOCK) {
-                    epoller.waitForEvent(ctx, fd.fileNo, timeout);
+                    poller.waitForEvent(ctx, fd.fileNo, timeout);
                 }
                 else {
                     throw mkExFmt!ErrnoException("%s(%s)", __traits(identifier, F), fd.fileNo);
@@ -851,11 +851,11 @@ package:
 }
 
 void _openReactorEpoll() {
-    epoller.open();
+    poller.open();
 }
 
 void _closeReactorEpoll() {
-    epoller.close();
+    poller.close();
 }
 
 version(unittest):
@@ -926,7 +926,7 @@ private class UnitTest {
         theReactor.setup(options);
         scope(success) theReactor.teardown();
 
-        theReactor.registerRecurringTimer(1.msecs, &epoller.poll);
+        theReactor.registerRecurringTimer(1.msecs, &poller.poll);
 
         testBody();
     }
