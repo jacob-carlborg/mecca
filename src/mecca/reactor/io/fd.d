@@ -21,7 +21,7 @@ import mecca.lib.string;
 import mecca.lib.time;
 import mecca.log;
 import mecca.platform.os : EREMOTEIO;
-import mecca.reactor.subsystems.poller;
+import mecca.reactor.subsystems.poller : Poller, poller;
 
 enum LISTEN_BACKLOG = 10;
 
@@ -680,7 +680,7 @@ struct File {
 struct ReactorFD {
 private:
     FD fd;
-    Epoll.FdContext* ctx;
+    Poller.FdContext* ctx;
 
 public:
     @disable this(this);

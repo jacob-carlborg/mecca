@@ -1,6 +1,9 @@
-module mecca.reactor.platform.linux.epoll;
+module mecca.reactor.platform.linux.poller;
 
 // Licensed under the Boost license. Full copyright information in the AUTHORS file
+
+version (linux):
+package(mecca.reactor.platform):
 
 import core.stdc.errno;
 import core.sys.linux.epoll;
@@ -35,17 +38,8 @@ private extern(C) {
     +/
 }
 
-struct Epoll {
-    struct FdContext {
-        enum Type { None, FiberHandle, Callback, CallbackOneShot, NoiseReduction }
-        Type type = Type.None;
-        int fdNum;
-        union {
-            FiberHandle fibHandle;
-            void delegate(void* opaq) callback;
-        }
-        void* opaq;
-    }
+struct Poller {
+    public import mecca.reactor.subsystems.poller : FdContext;
 
 private: // Not that this does anything, as the struct itself is only visible to this file.
     FD epollFd;
@@ -218,11 +212,6 @@ private:
         // There is no reason for a registered FD to fail removal, so we assert instead of throwing
         ASSERT!"Removing fd from epoll failed with errno %s"( res>=0, errno );
     }
-}
-
-private __gshared Epoll __poller;
-public @property ref Epoll poller() nothrow @trusted @nogc {
-    return __poller;
 }
 
 // Unit test in mecca.reactor.io
