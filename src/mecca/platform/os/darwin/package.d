@@ -91,3 +91,11 @@ enum F_DUPFD_CLOEXEC = 67;
 
 // this does not exist on Darwin
 enum EREMOTEIO = -1;
+
+// pipe2 does not exist on Darwin so we're ignoring the flag and fallback to the
+// regular `pipe` function
+extern(C) private int pipe2(ref int[2] pipefd, int) nothrow @trusted @nogc
+{
+    import core.sys.posix.unistd : pipe;
+    return pipe(pipefd);
+}
