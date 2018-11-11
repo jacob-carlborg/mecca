@@ -343,7 +343,7 @@ struct ConnectedSocket {
 }
 
 private void connectHelper(ref Socket sock, SockAddr sa, Timeout timeout) @trusted @nogc {
-    int result = sock.osCall!(.connect)(&sa.base, SockAddr.sizeof);
+    int result = sock.osCall!(.connect)(&sa.base, sa.len);
     errnoEnforceNGC(result==0 || errno == EINPROGRESS, "Connect failed");
 
     // Wait for connect to finish
@@ -398,7 +398,7 @@ struct Socket {
     ssize_t sendTo(const void[] data, int flags, SockAddr destAddr, Timeout timeout = Timeout.infinite)
             @trusted @nogc
     {
-        return fd.blockingCall!(.sendto)(data.ptr, data.length, flags, &destAddr.base, SockAddr.sizeof, timeout);
+        return fd.blockingCall!(.sendto)(data.ptr, data.length, flags, &destAddr.base, destAddr.len, timeout);
     }
 
     /// ditto
