@@ -99,3 +99,5 @@ extern(C) private int pipe2(ref int[2] pipefd, int) nothrow @trusted @nogc
     import core.sys.posix.unistd : pipe;
     return pipe(pipefd);
 }
+
+enum ITIMER_REAL = 0;

@@ -437,15 +437,12 @@ unittest {
 
             import mecca.reactor.io.signals;
 
-            version (linux)
-            {
-                void termHandler(const ref signalfd_siginfo si) {
-                    // Nothing. We don't expect this to get called
-                }
-
-                // Register a TERM handler so that the signal is masked in the parent
-                reactorSignal.registerHandler(OSSignal.SIGTERM, &termHandler);
+            void termHandler(OSSignal) {
+                // Nothing. We don't expect this to get called
             }
+
+            // Register a TERM handler so that the signal is masked in the parent
+            reactorSignal.registerHandler(OSSignal.SIGTERM, &termHandler);
 
             RunContext ctx;
 

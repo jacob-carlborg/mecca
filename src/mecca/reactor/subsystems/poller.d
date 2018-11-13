@@ -7,8 +7,18 @@ public import mecca.reactor.platform.poller;
 struct FdContext {
      import mecca.reactor : FiberHandle;
 
-    enum Type { None, FiberHandle, Callback, CallbackOneShot, NoiseReduction }
+    enum Type
+    {
+        None,
+        FiberHandle,
+        Callback,
+        CallbackOneShot,
+        NoiseReduction,
+        SignalHandler // kqueue only
+    }
+
     Type type = Type.None;
+    // file descriptor or signal
     int fdNum;
     union {
         FiberHandle fibHandle;

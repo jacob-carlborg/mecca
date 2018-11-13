@@ -114,6 +114,9 @@ public:
             internalRegisterFD(fd, ctx);
             ctx.type = None;
             break;
+        case SignalHandler:
+            ASSERT!"Should never happen for epoll, SignalHandler is kqueue only";
+            break;
         }
         ctx.type = FdContext.Type.FiberHandle;
         scope(exit) ctx.type = FdContext.Type.None;
@@ -190,6 +193,9 @@ public:
                 break;
             case NoiseReduction:
                 ASSERT!"FD %s triggered epoll despite being disabled on ctx %s"(false, ctx.fdNum, ctx);
+                break;
+            case SignalHandler:
+                ASSERT!"Should never happen for epoll, SignalHandler is kqueue only";
                 break;
             }
         }
